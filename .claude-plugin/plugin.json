@@ -1,0 +1,9 @@
+{
+  "name": "codex-review",
+  "version": "1.0.0",
+  "description": "Integrate Codex CLI (GPT 5.2) for bug analysis, code review, and plan revision with proactive triggering",
+  "author": {
+    "name": "astomodynamics"
+  },
+  "keywords": ["codex", "gpt", "code-review", "bug-analysis", "plan-review"]
+}
