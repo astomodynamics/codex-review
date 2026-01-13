@@ -1,20 +1,30 @@
 {
-  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "astomodynamics-codex-review",
-  "description": "Codex Review plugin - GPT 5.2 second opinion for code review, security, and architecture",
   "owner": {
-    "name": "astomodynamics"
+    "name": "astomodynamics",
+    "url": "https://github.com/astomodynamics"
   },
   "plugins": [
     {
       "name": "codex-review",
+      "source": "./",
       "description": "Integrate Codex CLI (GPT 5.2) for bug analysis, code review, security analysis, architecture guidance, and plan revision",
+      "version": "1.1.0",
       "author": {
-        "name": "astomodynamics"
+        "name": "astomodynamics",
+        "url": "https://github.com/astomodynamics"
       },
-      "source": ".",
-      "category": "development",
-      "homepage": "https://github.com/astomodynamics/codex-review"
+      "homepage": "https://github.com/astomodynamics/codex-review",
+      "repository": "https://github.com/astomodynamics/codex-review",
+      "license": "MIT",
+      "keywords": [
+        "codex",
+        "gpt",
+        "code-review",
+        "bug-analysis",
+        "security",
+        "architecture"
+      ]
     }
   ]
 }
