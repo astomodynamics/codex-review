@@ -1,0 +1,10 @@
+{
+  "name": "astomodynamics-codex-review",
+  "description": "Codex Review plugin marketplace",
+  "plugins": [
+    {
+      "name": "codex-review",
+      "path": "."
+    }
+  ]
+}
