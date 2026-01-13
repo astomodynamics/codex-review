@@ -1,7 +1,7 @@
 ---
 description: "Review code quality using Codex (GPT 5.2)"
 argument-hint: "[file paths or leave empty for recent changes]"
-allowed-tools: ["Read", "Glob", "Grep", "Bash", "mcp__codex__codex", "AskUserQuestion", "Task"]
+allowed-tools: Read, Glob, Grep, Bash, mcp__codex__codex, AskUserQuestion, Task
 ---
 
 # Code Review with Codex

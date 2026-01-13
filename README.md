@@ -17,6 +17,8 @@ Every Codex call lets you choose:
 | `/codex-bugs [paths]` | Analyze code for bugs using Codex |
 | `/codex-review [paths]` | Review code quality using Codex |
 | `/codex-plan` | Review current plan before execution |
+| `/codex-security [paths]` | Analyze code for security vulnerabilities using Codex |
+| `/codex-architect [topic]` | Architecture and design analysis using Codex |
 
 ### Proactive Agents
 
@@ -74,6 +76,22 @@ You can always decline - agents always ask permission before delegating.
 3. **Agents**: Proactive triggers that ask permission, then delegate to Codex
 
 All delegation uses `sandbox: "read-only"` by default - Codex analyzes but doesn't modify files.
+
+## Security & Privacy
+
+**Data Handling:**
+- All analysis uses `sandbox: "read-only"` - Codex cannot modify your files
+- Code snippets are sent to Codex (GPT 5.2) for analysis
+- Agents always ask permission before delegating
+
+**Best Practices:**
+- Do NOT send code containing API keys, secrets, or credentials
+- Avoid sending PII (personally identifiable information)
+- Review what files are being analyzed before confirming
+
+**MCP Configuration:**
+- Uses stdio transport (no network exposure)
+- Authentication handled by Codex CLI (`codex login`)
 
 ## Replacing Delegator Rules
 
