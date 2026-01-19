@@ -1,6 +1,6 @@
 # Codex Review Plugin
 
-Integrate Codex CLI (GPT 5.2) for bug analysis, code review, and plan revision with proactive triggering.
+Integrate Codex CLI (GPT 5.2) for bug analysis, code review, implementation planning, and plan revision with proactive triggering.
 
 ## Features
 
@@ -14,6 +14,7 @@ Every Codex call lets you choose:
 
 | Command | Description |
 |---------|-------------|
+| `/commit [-m 'msg']` | Create git commit with meaningful message (no Claude footer) |
 | `/codex-bugs [paths]` | Analyze code for bugs using Codex |
 | `/codex-review [paths]` | Review code quality using Codex |
 | `/codex-plan` | Review current plan before execution |
@@ -28,6 +29,23 @@ Every Codex call lets you choose:
 | `plan-reviewer` | Before presenting a plan for approval |
 
 Both agents **ask permission first** and let you choose the execution mode before delegating to Codex.
+
+### Skills
+
+| Skill | Description |
+|-------|-------------|
+| `codex-delegation` | Patterns for building 7-section delegation prompts |
+| `codex-plan-mode` | Create comprehensive implementation plans using Codex |
+
+**Codex Plan Mode** is a 5-phase workflow for creating detailed implementation plans:
+
+1. **Requirements Gathering** - Clarify what to implement
+2. **Codebase Exploration** - Find relevant files and patterns
+3. **Context Building** - Synthesize findings
+4. **Codex Delegation** - Generate detailed plan with file paths
+5. **Synthesis & Validation** - Present and optionally validate the plan
+
+Invoke with: "use codex plan mode to implement [feature]"
 
 ## Requirements
 
@@ -50,6 +68,12 @@ Or add to your Claude Code configuration.
 ### Explicit Commands
 
 ```
+# Create a commit with content-aware message (no Claude footer)
+/commit
+
+# Commit with custom message
+/commit -m "Fix authentication bug"
+
 # Analyze specific files for bugs
 /codex-bugs src/auth/
 
@@ -58,7 +82,19 @@ Or add to your Claude Code configuration.
 
 # Review current plan before execution
 /codex-plan
+
+# Create implementation plan with Codex
+"use codex plan mode to implement user authentication"
 ```
+
+### Commit Command
+
+The `/commit` command creates git commits with meaningful messages based on actual file content:
+
+- **Reads file content**: Analyzes what actually changed, not just file names
+- **Matches repo style**: Checks recent commits to follow existing conventions
+- **No Claude footer**: Omits the Co-Authored-By line (unlike built-in commit)
+- **Smart staging**: Asks before staging unstaged files
 
 ### Proactive Behavior
 
@@ -71,7 +107,9 @@ You can always decline - agents always ask permission before delegating.
 
 ## How It Works
 
-1. **Skill**: The `codex-delegation` skill provides patterns for building 7-section delegation prompts
+1. **Skills**:
+   - `codex-delegation` provides patterns for building 7-section delegation prompts
+   - `codex-plan-mode` guides comprehensive implementation planning
 2. **Commands**: Explicit slash commands for on-demand Codex analysis
 3. **Agents**: Proactive triggers that ask permission, then delegate to Codex
 

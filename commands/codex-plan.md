@@ -1,6 +1,6 @@
 ---
 description: "Review current plan using Codex (GPT 5.2) before execution"
-allowed-tools: Read, mcp__codex__codex, AskUserQuestion, Task
+allowed-tools: Read, Glob, Grep, Bash, mcp__codex__codex, AskUserQuestion, Task
 ---
 
 # Plan Review with Codex

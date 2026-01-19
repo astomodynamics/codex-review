@@ -1,7 +1,7 @@
 ---
 name: plan-reviewer
 description: Use this agent before presenting a plan for approval to offer Codex (GPT 5.2) validation of the implementation plan
-tools: Read, mcp__codex__codex, AskUserQuestion, Task
+tools: Read, Glob, Grep, Bash, mcp__codex__codex, AskUserQuestion, Task
 model: sonnet
 color: blue
 ---

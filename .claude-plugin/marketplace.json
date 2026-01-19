@@ -8,8 +8,8 @@
     {
       "name": "codex-review",
       "source": "./",
-      "description": "Integrate Codex CLI (GPT 5.2) for bug analysis, code review, security analysis, architecture guidance, and plan revision",
-      "version": "1.1.0",
+      "description": "Integrate Codex CLI (GPT 5.2) for bug analysis, code review, security analysis, architecture guidance, plan revision, and git commits",
+      "version": "1.3.0",
       "author": {
         "name": "astomodynamics",
         "url": "https://github.com/astomodynamics"
@@ -22,8 +22,11 @@
         "gpt",
         "code-review",
         "bug-analysis",
+        "planning",
         "security",
-        "architecture"
+        "architecture",
+        "commit",
+        "git"
       ]
     }
   ]
