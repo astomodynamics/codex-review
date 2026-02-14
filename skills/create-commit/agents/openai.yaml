@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Commit"
+  short_description: "Commit changes safely with clear, scoped messages."
+  default_prompt: "Create a logical commit from the current staged changes and report validation run."
