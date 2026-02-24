@@ -1,7 +1,7 @@
 # Source
 
-Copied from repository file `.github/pull_request_template.md`.
-Refresh this reference when the repository template changes.
+Generic pull request template for structured reviewer context.
+Refresh this reference when your team template changes.
 
 ## Summary
 <!-- Provide 2-3 bullet points summarizing the key changes and their purpose -->

@@ -1,4 +1,4 @@
 interface:
   display_name: "Create PR"
-  short_description: "Draft PRs from branch diffs using the repo template."
-  default_prompt: "Draft a pull request body from this branch using .github/pull_request_template.md."
+  short_description: "Draft PR content from branch diffs and create PRs with gh."
+  default_prompt: "Use $create-pr to inspect diffs, write .pr_description.md, and run gh pr create."
