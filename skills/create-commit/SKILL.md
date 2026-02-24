@@ -41,17 +41,23 @@ git diff --staged <file>
 git log -5 --oneline
 ```
 
-5. Draft a concise message from the actual change intent.
+5. Draft a concise but informative message from the actual change intent.
 - Prefer Conventional Commit style when the repo uses it.
-- Keep header under 72 characters.
+- Keep header under 72 characters (target 50-72).
+- Make the header specific: what changed and why/impact in one line.
 - Use imperative mood.
+- If context is non-trivial, add a short body (1-3 lines) with key details.
 
 6. If user provides `-m "<message>"`, use it exactly.
 
 7. Execute commit.
 
 ```bash
-git commit -m "<generated-or-override-message>"
+# Subject only (default)
+git commit -m "<generated-subject>"
+
+# Add body only when needed
+git commit -m "<generated-subject>" -m "<short body>"
 ```
 
 8. Report results with commit hash, subject, changed files, and `git status --short`.
@@ -61,3 +67,4 @@ git commit -m "<generated-or-override-message>"
 - Do not use `--amend` unless the user explicitly asks.
 - Do not add Co-Authored-By footer unless the user explicitly asks.
 - Base the message on diffs, not filenames alone.
+- Avoid filler text; include only details that improve scanability.
