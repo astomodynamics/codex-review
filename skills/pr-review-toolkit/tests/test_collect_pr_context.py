@@ -64,6 +64,22 @@ class CollectPrContextTests(unittest.TestCase):
 
             self.assertEqual(collect_pr_context.resolve_auto_base(repo), "develop")
 
+    def test_resolve_auto_base_prefers_upstream_remote_default_branch(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            repo = Path(tmpdir)
+            self.init_repo(repo, branch="feature")
+            self.commit_file(repo, "README.md", "base\n", "init")
+            run(["git", "branch", "main"], cwd=repo)
+            run(["git", "remote", "add", "fork", "https://example.com/fork.git"], cwd=repo)
+            run(["git", "remote", "add", "origin", "https://example.com/origin.git"], cwd=repo)
+            run(["git", "update-ref", "refs/remotes/fork/main", "HEAD"], cwd=repo)
+            run(["git", "update-ref", "refs/remotes/origin/main", "HEAD"], cwd=repo)
+            run(["git", "symbolic-ref", "refs/remotes/fork/HEAD", "refs/remotes/fork/main"], cwd=repo)
+            run(["git", "symbolic-ref", "refs/remotes/origin/HEAD", "refs/remotes/origin/main"], cwd=repo)
+            run(["git", "config", "branch.feature.remote", "origin"], cwd=repo)
+
+            self.assertEqual(collect_pr_context.resolve_auto_base(repo), "origin/main")
+
     def test_resolve_auto_base_raises_when_branch_is_ambiguous(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             repo = Path(tmpdir)
@@ -117,11 +133,14 @@ class CollectPrContextTests(unittest.TestCase):
         self.assertFalse(
             collect_pr_context.matches_test("src/user.py", "tests/test_superuser.py")
         )
-        self.assertTrue(
+        self.assertFalse(
             collect_pr_context.matches_test("src/auth/login.py", "tests/auth/test_flow.py")
         )
         self.assertTrue(
             collect_pr_context.matches_test("src/user.ts", "tests/user.test.ts")
+        )
+        self.assertTrue(
+            collect_pr_context.matches_test("src/auth/login.py", "tests/auth/test_login.py")
         )
 
 

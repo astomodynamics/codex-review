@@ -48,6 +48,13 @@ def ref_exists(repo_root: Path, ref: str) -> bool:
     return try_git(repo_root, ["rev-parse", "--verify", ref]) is not None
 
 
+def current_branch_name(repo_root: Path) -> str | None:
+    branch = try_git(repo_root, ["rev-parse", "--abbrev-ref", "HEAD"])
+    if branch and branch != "HEAD":
+        return branch
+    return None
+
+
 def list_refs(repo_root: Path, *prefixes: str) -> list[str]:
     output = run_git(repo_root, ["for-each-ref", "--format=%(refname:short)", *prefixes], check=False)
     return [line for line in output.splitlines() if line.strip()]
@@ -57,17 +64,38 @@ def dedupe_refs(refs: list[str]) -> list[str]:
     return list(dict.fromkeys(refs))
 
 
-def resolve_remote_default_branch(repo_root: Path) -> str | None:
+def configured_branch_remote(repo_root: Path, branch: str | None) -> str | None:
+    if not branch:
+        return None
+    return try_git(repo_root, ["config", "--get", f"branch.{branch}.remote"])
+
+
+def resolve_remote_default_branch(repo_root: Path, remote: str) -> str | None:
+    ref = try_git(repo_root, ["symbolic-ref", "--quiet", f"refs/remotes/{remote}/HEAD"])
+    if ref:
+        return ref.removeprefix("refs/remotes/")
+    return None
+
+
+def resolve_any_remote_default_branch(repo_root: Path) -> str | None:
     output = run_git(
         repo_root,
         ["for-each-ref", "--format=%(symref:short)", "refs/remotes/*/HEAD"],
         check=False,
     )
-    for line in output.splitlines():
-        ref = line.strip()
-        if ref:
-            return ref
+    refs = [line.strip() for line in output.splitlines() if line.strip()]
+    refs = dedupe_refs(refs)
+    if len(refs) == 1:
+        return refs[0]
     return None
+
+
+def candidate_base_refs(repo_root: Path, remotes: list[str], branch_names: list[str]) -> list[str]:
+    refs: list[str] = []
+    for remote in remotes:
+        refs.extend(f"{remote}/{name}" for name in branch_names)
+    refs.extend(branch_names)
+    return [ref for ref in dedupe_refs(refs) if ref_exists(repo_root, ref)]
 
 
 def resolve_single_branch_fallback(repo_root: Path, current_branch: str | None) -> str | None:
@@ -88,23 +116,34 @@ def resolve_single_branch_fallback(repo_root: Path, current_branch: str | None) 
 
 
 def resolve_auto_base(repo_root: Path) -> str:
-    remote_default = resolve_remote_default_branch(repo_root)
+    current_branch = current_branch_name(repo_root)
+    preferred_remotes: list[str] = []
+
+    branch_remote = configured_branch_remote(repo_root, current_branch)
+    if branch_remote:
+        preferred_remotes.append(branch_remote)
+    if "origin" not in preferred_remotes:
+        preferred_remotes.append("origin")
+
+    for remote in preferred_remotes:
+        remote_default = resolve_remote_default_branch(repo_root, remote)
+        if remote_default:
+            return remote_default
+
+    configured_default = try_git(repo_root, ["config", "--get", "init.defaultBranch"])
+    branch_name_candidates: list[str] = []
+    if configured_default:
+        branch_name_candidates.append(configured_default)
+
+    branch_name_candidates.extend(COMMON_DEFAULT_BRANCH_NAMES)
+    named_candidates = candidate_base_refs(repo_root, preferred_remotes, branch_name_candidates)
+    if named_candidates:
+        return named_candidates[0]
+
+    remote_default = resolve_any_remote_default_branch(repo_root)
     if remote_default:
         return remote_default
 
-    configured_default = try_git(repo_root, ["config", "--get", "init.defaultBranch"])
-    configured_candidates: list[str] = []
-    if configured_default:
-        configured_candidates.extend([f"origin/{configured_default}", configured_default])
-
-    named_candidates = configured_candidates + [
-        f"origin/{name}" for name in COMMON_DEFAULT_BRANCH_NAMES
-    ] + list(COMMON_DEFAULT_BRANCH_NAMES)
-    for candidate in dedupe_refs(named_candidates):
-        if ref_exists(repo_root, candidate):
-            return candidate
-
-    current_branch = try_git(repo_root, ["rev-parse", "--abbrev-ref", "HEAD"])
     single_branch_fallback = resolve_single_branch_fallback(repo_root, current_branch)
     if single_branch_fallback:
         return single_branch_fallback
@@ -227,12 +266,7 @@ def matches_test(source_path: str, test_path: str) -> bool:
     source = Path(source_path)
     source_stem = source.stem.lower()
     test_stem = normalize_test_stem(test_path)
-    if source_stem and source_stem == test_stem:
-        return True
-
-    parent_name = source.parent.name.lower()
-    test_parts = {part.lower() for part in Path(test_path).parts}
-    return bool(parent_name and parent_name in test_parts)
+    return bool(source_stem and source_stem == test_stem)
 
 
 def build_test_signals(changed_files: list[dict[str, object]]) -> tuple[list[str], list[str]]:
