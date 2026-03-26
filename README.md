@@ -2,10 +2,11 @@
 
 This repository is the cloud-backed home for my reusable Codex setup.
 
-The primary content now lives in [codex-home](/home/astomodynamics/github/codex-review/codex-home), which stores only the reusable custom surface:
+The primary content now lives in `codex-home/`, which stores only the reusable
+custom surface:
 
-- [codex-home/agents](/home/astomodynamics/github/codex-review/codex-home/agents)
-- [codex-home/skills](/home/astomodynamics/github/codex-review/codex-home/skills)
+- `codex-home/agents`
+- `codex-home/skills`
 
 ## Purpose
 

@@ -11,4 +11,4 @@ Contents here are retained only for reference:
 
 These files are no longer the primary surface of the repository.
 
-The active Codex-designated setup now lives in [codex-home](/home/astomodynamics/github/codex-review/codex-home).
+The active Codex-designated setup now lives in `codex-home/`.

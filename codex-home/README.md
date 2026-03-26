@@ -30,12 +30,9 @@ Currently kept here because they are user-developed/customized:
 
 Excluded on purpose:
 
-- `AGENTS.md`
-- `config.toml`
-- `auth.json`
-- `history.jsonl`
-- logs, caches, sqlite files
-- session state and other machine-local runtime data
+- global or machine-local Codex config files
+- local auth, history, and runtime state files
+- logs, caches, sqlite files, and session state
 - machine-specific scripts or paths
 - bundled or third-party skills not developed by me
 
