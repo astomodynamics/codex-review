@@ -27,7 +27,7 @@ Inspect the change, decide on the right staging mode, and create a safe commit w
 4. Read the actual staged diff and inspect recent commit style in the repo
 5. Draft a specific commit subject
 6. Prefer `<type>(scope?): <summary>` when the repo uses Conventional Commits
-7. Keep the header under about 72 characters and add a short body only when needed
+7. Keep the header under about 72 characters and add a short body when the change is non-trivial, especially to explain why the commit exists
 8. Run `git commit` and report the result
 
 # Required checks
@@ -64,3 +64,4 @@ Inspect the change, decide on the right staging mode, and create a safe commit w
 - Do not stage unrelated files on your own
 - Base the message on the actual diff, not just filenames
 - If the user provided `-m "<message>"`, use it exactly
+- Prefer a 1-3 line body for non-trivial commits that captures intent, constraint, or motivation
