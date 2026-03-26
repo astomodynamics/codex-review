@@ -1,0 +1,22 @@
+# ~/.codex/AGENTS.md template
+
+このファイルは **どの repo でも共通で守らせたい個人ルール** を置くテンプレートです。  
+repo 固有ルールは各リポジトリの `AGENTS.md` に置き、このファイルは薄く保ってください。
+
+## Personal working agreements
+
+- 複雑タスクでは、実装前に短い計画を作る
+- 変更理由と検証結果を最後に必ず要約する
+- まず狭い検証から回し、必要な範囲だけ広げる
+- 依存追加・CI変更・破壊的操作は、必要性を明示してから行う
+- 不明点がある時は、既存コード・設定・テストを先に確認する
+- 無関係な cleanup を混ぜない
+- レビュー時は concrete findings を優先する
+- バグ修正では回帰テスト候補を必ず考える
+
+## Optional preferences
+
+- 好みの package manager: `<fill-me>`
+- よく使う lint command: `<fill-me>`
+- よく使う test command: `<fill-me>`
+- 先に見てほしい docs / notes: `<fill-me>`
