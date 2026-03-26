@@ -1,47 +1,47 @@
 ---
 name: root-cause-debugger
-description: Use for bug hunts, flaky tests, regressions, runtime exceptions, or confusing behavior where the root cause is not yet known. 原因未特定の不具合調査や flaky test の切り分けに使う。
+description: Use for bug hunts, flaky tests, regressions, runtime exceptions, or confusing behavior where the root cause is not yet known.
 ---
 
 # Purpose
 
-「症状」から「根本原因」まで最短距離で辿り、最小修正と回帰テストにつなげる。
+Use this skill to move from symptom to root cause as directly as possible, then connect that to the smallest fix and the right regression test.
 
 # When to use
 
-- エラーや例外は見えているが原因が不明
-- flaky test や環境依存不具合を切り分けたい
-- 直したつもりなのに再発する
-- ログ、stack trace、diff のどこを見るべきか散っている
+- An error or exception is visible but the cause is unclear
+- You need to isolate a flaky test or environment-dependent bug
+- The issue keeps coming back after an attempted fix
+- The logs, stack trace, and relevant diff are scattered
 
 # Do not use
 
-- 既に原因が確定している単純修正
-- 仕様追加の相談
-- 大規模リファクタ計画
+- Simple fixes where the cause is already confirmed
+- Requests for new feature design
+- Large refactor planning
 
 # Workflow
 
-1. 症状を 1 文で固定する
-2. 再現条件を明確化する
-3. 既存ログ / stack trace / recent diff / failing tests を集め、必要なら self-contained な log bundle を作る
-4. relevant env / runtime / dependency 情報を、必要なときだけ一緒に固定する
-5. 必要なら `code_mapper` で実行経路をトレースする
-6. 仮説を 2〜3 個までに絞る
-7. 一番安い確認から潰す
-8. 根本原因を特定したら `surgical_fixer` で最小修正に渡す
-9. `test_designer` を使って最小の回帰テストを決める
+1. Pin the symptom down to a single sentence
+2. Clarify reproduction conditions
+3. Gather logs / stack trace / recent diff / failing tests, and build a self-contained log bundle when helpful
+4. Capture relevant env / runtime / dependency information only when it matters
+5. Use `code_mapper` when execution-path tracing is needed
+6. Narrow the problem to 2 or 3 hypotheses
+7. Eliminate them starting from the cheapest check
+8. Once the root cause is confirmed, hand the smallest fix to `surgical_fixer`
+9. Use `test_designer` to define the minimal regression test
 
 # Evidence bundle
 
-可能なら以下を揃える:
+Collect these when possible:
 
 - failing command / script
 - expected vs actual behavior
 - stderr / traceback / assertion
 - relevant env vars
-- `git status -sb` と recent diff
-- failing test name または reproduction steps
+- `git status -sb` plus the recent diff
+- Failing test name or explicit reproduction steps
 
 # Output template
 
@@ -70,7 +70,7 @@ description: Use for bug hunts, flaky tests, regressions, runtime exceptions, or
 
 # Quality bar
 
-- 直接原因と根本原因を区別する
-- 「たぶん」ではなく、証拠に基づく絞り込みを行う
-- 修正案は最小であること
-- 再現ログや evidence を残せるなら bundle path も返すこと
+- Distinguish the immediate cause from the deeper root cause
+- Narrow the issue using evidence instead of guesswork
+- Keep the fix shape minimal
+- Return the bundle path too when a reproducible log/evidence bundle exists

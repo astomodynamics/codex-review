@@ -1,34 +1,34 @@
 ---
 name: safe-refactor
-description: Use when behavior should stay the same but structure should improve, such as extracting functions, reducing duplication, clarifying names, or separating responsibilities. 挙動維持のまま整理したい安全なリファクタに使う。
+description: Use when behavior should stay the same but structure should improve, such as extracting functions, reducing duplication, clarifying names, or separating responsibilities.
 ---
 
 # Purpose
 
-挙動を変えずに、読みやすさ・保守性・局所性を改善する。
+Use this skill to improve readability, maintainability, and local structure without changing behavior.
 
 # When to use
 
-- 重複除去
-- 関数分割
-- 責務分離
-- 名前の明確化
-- 長すぎる条件分岐やメソッドの整理
+- Removing duplication
+- Splitting functions
+- Separating responsibilities
+- Clarifying naming
+- Simplifying very long conditionals or methods
 
 # Do not use
 
-- 仕様変更
-- パフォーマンス改善を兼ねた大改造
-- public API / schema / persistence contract を変える改修
+- Spec changes
+- Large rewrites that also pursue performance gains
+- Changes that alter a public API, schema, or persistence contract
 
 # Workflow
 
-1. 守るべき不変条件を列挙する
-2. 既存テストや型でガードできる点を確認する
-3. 変更を小刻みに分割する
-4. 1 ステップごとに format / lint / test を回せる形にする
-5. 必要なら `test_designer` で不足テストを補う
-6. 最後に `reviewer` で回帰リスクを確認する
+1. List the invariants that must stay true
+2. Check what is already guarded by existing tests or types
+3. Split the work into small steps
+4. Make each step easy to validate with format / lint / test
+5. Use `test_designer` if you need to fill testing gaps
+6. Use `reviewer` at the end to confirm regression risk
 
 # Output template
 
@@ -48,6 +48,6 @@ description: Use when behavior should stay the same but structure should improve
 
 # Quality bar
 
-- 機能追加を混ぜない
-- diff を読みやすく保つ
-- 元の責務境界を壊すなら、その理由を明示する
+- Do not mix in new features
+- Keep the diff easy to review
+- If you change responsibility boundaries, explain why
