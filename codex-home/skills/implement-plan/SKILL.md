@@ -1,6 +1,6 @@
 ---
-name: execute-plan
-description: Execute a saved implementation plan file such as `plan.md` with high fidelity. Use when the user invokes the skill with a plan attachment or path, for example `$execute-plan @plan.md` or `$execute-plan @docs/plan.md`, and wants Codex to carry the plan out step by step, map it onto the current codebase, show a diff preview before edits, validate after changes, and stop for approval when the plan is unclear or conflicts with the code.
+name: implement-plan
+description: Execute a saved implementation plan file such as `plan.md` with high fidelity. Use when the user invokes the skill with a plan attachment or path, for example `$implement-plan @plan.md` or `$implement-plan @docs/plan.md`, and wants Codex to carry the plan out step by step, map it onto the current codebase, show a diff preview before edits, validate after changes, and stop for approval when the plan is unclear or conflicts with the code.
 ---
 
 # Purpose
@@ -87,7 +87,7 @@ Stop and ask the user before proceeding if:
 
 # Example Trigger Phrases
 
-- "$execute-plan @plan.md"
-- "$execute-plan @docs/plan.md"
-- "Use $execute-plan @plan.md and follow it exactly."
+- "$implement-plan @plan.md"
+- "$implement-plan @docs/plan.md"
+- "Use $implement-plan @plan.md and follow it exactly."
 - "Load @plan.md, map it to the repo, and start Step 1."
