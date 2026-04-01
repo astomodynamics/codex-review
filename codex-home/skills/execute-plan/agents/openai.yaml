@@ -1,0 +1,4 @@
+interface:
+  display_name: "Execute Plan"
+  short_description: "Execute a saved implementation plan strictly"
+  default_prompt: "Use $execute-plan @plan.md to load the plan, map it to the current codebase, and execute it step by step with previews, validation, and stop-on-conflict behavior."
